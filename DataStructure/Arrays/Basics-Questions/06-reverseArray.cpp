@@ -34,20 +34,28 @@ void reverseArray(int arr[], int n){
 }
 int main() {
 
-  int arr[8];
-
-  inputArray(arr, 8);
-  outputArray(arr, 8);
+  int arr[7];
+  int n = 7;
+  inputArray(arr, n);
+  outputArray(arr, n);
   cout << "=========After Reverse=========\n";
-  reverseArray(arr, 8);
-  outputArray(arr, 8);
+  reverseArray(arr, n);
+  outputArray(arr, n);
 
   return 0;
 }
 
 /*
+  Even values:
+  ------------
   Enter 8 values for Array: -1 -3 4 5 -6 -3  10 23
   Displaying array: -1 -3 4 5 -6 -3 10 23 
   =========After Reverse=========
   Displaying array: 23 10 -3 -6 5 4 -3 -1
+
+  Odd values:
+  Enter 7 values for Array: 1 4 6 7 8 9 3
+  Displaying array: 1 4 6 7 8 9 3 
+  =========After Reverse=========
+  Displaying array: 3 9 8 7 6 4 1
 */
