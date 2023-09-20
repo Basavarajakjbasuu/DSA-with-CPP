@@ -33,3 +33,7 @@ int main() {
   cout << "Last occurrence of " << key << " is " << findLastOccurrence(inArr, size, key);
   return 0;
 }
+
+/*
+  Last occurrence of 30 is 4
+*/
