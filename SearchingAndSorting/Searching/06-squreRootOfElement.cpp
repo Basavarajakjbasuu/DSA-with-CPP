@@ -5,7 +5,7 @@ using namespace std;
   Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.
 */
 
-
+  
 int sqrtOfNum(int x) {
   int startIndex = 0;
   int lastIndex = x;
@@ -19,14 +19,16 @@ int sqrtOfNum(int x) {
         return mid;
     }else if(mid * mid < x) {
         ans = mid;
+        //right search
         startIndex = mid + 1;
     }else {
+        // left search
         lastIndex = mid - 1;
     }
 
   }
 
-  return -1;
+  return ans;
 }
 
 int main() {
@@ -57,6 +59,6 @@ int main() {
   4
     int num = 101;
     cout << "Square Root of: " << sqrtOfNum(num);
-    Square Root of: -1
+    Square Root of: 10
 
 */
