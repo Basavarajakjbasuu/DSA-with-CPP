@@ -1,0 +1,32 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+ 
+int main() {
+  string str;
+
+  cout << "Enter string: ";
+  cin >> str;
+
+  stack<char> st;
+
+  for (int i = 0; i < str.length(); i++)
+  {
+    st.push(str[i]);
+  }
+
+  cout << endl;
+  while(!st.empty()) {
+    cout << st.top();
+    st.pop();
+  }
+  cout << endl;
+
+  return 0;
+}
+
+/*
+  Enter string: nithin
+
+  nihtin
+*/
