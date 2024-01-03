@@ -1,4 +1,5 @@
 #include<iostream>
+#include<limits.h>
 using namespace std;
 
 void inputArray(int arr[], int n) {

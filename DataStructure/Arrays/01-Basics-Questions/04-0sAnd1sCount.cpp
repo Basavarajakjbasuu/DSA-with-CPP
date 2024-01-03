@@ -31,7 +31,6 @@ void countOfZerosAndOnes(int arr[], int n) {
     if(arr[i] == 0) {
       zeros++;
     }
-    continue;
     if(arr[i] == 1) {
       ones++;
     }
