@@ -27,6 +27,6 @@ int main() {
   int rowCount = 3;
   int colCOunt = 3;
   int key = 9;
-  cout << linearSearchOf2DArray(arr, rowCount, colCOunt, key) << endl; // 1
+  cout << linearSearchOf2DArray(arr, rowCount, colCOunt, key) << endl; // 1 => true
   return 0;
 }
