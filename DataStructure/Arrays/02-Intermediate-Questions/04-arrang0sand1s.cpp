@@ -15,7 +15,7 @@ void sortZerosAndOnes(int arr[], int n) {
       zeros++;
     }
     if(arr[i] == 1) {
-      ones;
+      ones++;
     }
   }
   
@@ -28,6 +28,51 @@ void sortZerosAndOnes(int arr[], int n) {
   for (int i = zeros; i < n; i++)
   {
     arr[i] = 1;
+  }
+  
+}
+
+
+void twoIndexApproach(int arr[], int n) {
+
+  int leftIndex = 0, rightIndex = n-1;
+
+  while(leftIndex < rightIndex) {
+
+    if(arr[leftIndex] == 0) {
+      leftIndex++;
+    }
+
+    if(arr[rightIndex] == 1) {
+      rightIndex--;
+    }
+
+    if(leftIndex < rightIndex) {
+      arr[leftIndex] = 0;
+      arr[rightIndex] = 1;
+      leftIndex++;
+      rightIndex--;
+    }
+
+  }
+
+}
+
+
+void twoPointerApproach(int arr[], int n) {
+
+  int leftIndex = 0, rightIndex = n -1;
+
+  while (leftIndex < rightIndex)
+  {
+    if(arr[leftIndex] == 1) {
+      if(arr[rightIndex] != 1 ) {
+        swap( arr[leftIndex], arr[rightIndex]);
+        leftIndex++;
+      }
+        rightIndex--;
+    } else
+        leftIndex++;
   }
   
 }
@@ -46,7 +91,9 @@ int main() {
   int arr[10] = {0, 1, 0, 1, 0, 0, 0, 1, 0, 1};
 
   int n = 10;
-  sortZerosAndOnes(arr, n);
+  // sortZerosAndOnes(arr, n);
+  // twoIndexApproach(arr, n);
+  twoPointerApproach(arr, n);
   outputArray(arr, n);
   return 0;
 }

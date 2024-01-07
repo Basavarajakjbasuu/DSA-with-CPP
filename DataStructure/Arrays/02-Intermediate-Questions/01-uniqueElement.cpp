@@ -2,7 +2,7 @@
 using namespace std;
 
 /**
- * Find Unique element in and Array 
+ * Find Unique element in an Array 
  */ 
 
 int uniqueElement(int arr[], int n) {
@@ -23,3 +23,7 @@ int main() {
   cout << "unique element is: " << uniqueElement(arr, 8) << endl;
   return 0;
 }
+
+/**
+ * unique element is: 9
+ */
