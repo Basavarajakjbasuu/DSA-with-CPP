@@ -27,9 +27,17 @@ void buildHeap(int arr[], int n) {
   }
 }
 
+void heapSort(int arr[], int n) {
+  while (n != 1) {
+    swap(arr[1], arr[n]);
+    n--;
+    heapify(arr, n, 1);
+  }
+}
+
 int main() {
- 
-  int arr[] = {-1,5, 10, 15, 20, 25, 12};
+  
+  int arr[] = {-1, 5, 10, 15, 20, 25, 12};
   buildHeap(arr, 6);
   cout << "Printing heap: ";
   for (int i = 1; i <= 6; i++)
@@ -37,7 +45,17 @@ int main() {
     cout << arr[i] << " ";
   }
   cout <<  endl;
-  // Printing heap: 25 20 15 5 10 12
+  // Printing heap: 25 20 15 5 10 12 
+
+
+  heapSort(arr, 6);
+  cout << "Printing heap: ";
+  for (int i = 1; i <= 6; i++)
+  {
+    cout << arr[i] << " ";
+  }
+  cout <<  endl;
+  //Printing heap: 5 10 12 15 20 25 
 
   return 0;
 }
