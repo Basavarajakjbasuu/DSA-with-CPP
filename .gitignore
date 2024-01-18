@@ -32,4 +32,4 @@
 *.app
 *.json
 
-/.vscode
+.vscode/
