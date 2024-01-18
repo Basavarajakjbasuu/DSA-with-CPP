@@ -1,5 +1,6 @@
 {
   "files.associations": {
+    "*.ejs": "html",
     "*.jsx": "javascriptreact",
     "iostream": "cpp",
     "numbers": "cpp",
@@ -44,7 +45,8 @@
     "ostream": "cpp",
     "stdexcept": "cpp",
     "streambuf": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "queue": "cpp"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",
