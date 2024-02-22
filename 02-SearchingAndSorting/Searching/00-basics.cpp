@@ -25,7 +25,7 @@ bool binarySearch(vector<int> arr, int key) {
 
     while(startIndex <= endIndex) {
       // Mid index of an array
-      int midIndex = startIndex + (startIndex - endIndex) / 2;
+      int midIndex = startIndex + (endIndex - startIndex) / 2;
 
       if(key == arr[midIndex]) {
         cout << "Value " << arr[midIndex] << " found at index " << midIndex << endl;
