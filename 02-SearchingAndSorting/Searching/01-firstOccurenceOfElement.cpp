@@ -30,8 +30,8 @@ int findFirstOccurrence(int arr[], int size, int key) {
 
 int main() {
 
-  int inArr[7] = {10, 20, 30, 30, 30, 60, 60};
-  int key = 60;
+  int inArr[7] = {10, 20, 20, 30, 30, 60, 60};
+  int key = 30;
   int size = 7;
 
   cout << "First occurrence of " << key << " is " << findFirstOccurrence(inArr, size, key);
