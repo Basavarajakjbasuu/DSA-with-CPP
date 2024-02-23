@@ -14,7 +14,7 @@ using namespace std;
 
     here maximum element is 16 
 */
-int findPivotElement(vector<int>&arr ) {
+int findPivotIndex(vector<int>&arr ) {
 
   int n = arr.size();
   int startIndex = 0;
@@ -28,7 +28,7 @@ int findPivotElement(vector<int>&arr ) {
     if(startIndex == endIndex){
       return startIndex;
     }
-    else if(mid+1 < n && arr[mid] > arr[mid + 1]){
+    else if(mid + 1 < n && arr[mid] > arr[mid + 1]){
       return mid;
     }else if(mid - 1 >= 0 && arr[mid] < arr[mid-1]) {
       return mid - 1;
@@ -51,15 +51,16 @@ int main() {
 
   vector<int> inArr;
 
-  inArr.push_back(10);
-  inArr.push_back(12);
-  inArr.push_back(14);
-  inArr.push_back(16);
-  inArr.push_back(2);
-  inArr.push_back(4);
+  inArr.push_back(7);
   inArr.push_back(8);
+  inArr.push_back(1);
+  inArr.push_back(2);
+  inArr.push_back(3);
+  inArr.push_back(4);
+  inArr.push_back(5);
+  inArr.push_back(6);
 
-  cout << findPivotElement(inArr);
+  cout << "PivotElement: " << inArr[findPivotIndex(inArr)];
 
   return 0;
 }
