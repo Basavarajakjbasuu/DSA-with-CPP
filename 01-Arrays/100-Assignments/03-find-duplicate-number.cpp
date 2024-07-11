@@ -46,3 +46,5 @@ int main()
 
   return 0;
 }
+
+// The duplicate number is: 2
