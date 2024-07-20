@@ -21,6 +21,7 @@ int getQuotient(int dividend, int divisor){
     if(mid*divisor == dividend) {
       return mid;
     }else if(mid*divisor < dividend) {
+      //stor the answer 
       ans = mid;
       //  move to right
       startIndex = mid + 1;
@@ -38,6 +39,7 @@ int main() {
   int dividend = 35;
   int divisor = -1;
 
+//Sending only positive number
   int result = getQuotient(abs(dividend), abs(divisor));
 
   // handling negative input - just add negative sign based on cond
