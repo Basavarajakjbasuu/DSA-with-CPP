@@ -7,7 +7,7 @@ int main() {
 
   char ch[05];
 
-  // input
+  // input - it will take only first word that is before " ", "\n", "\t"
   // cin >> ch;
 
   // print

@@ -6,18 +6,18 @@ bool isPalindrome(char ch[], int size) {
 
   int startIndex = 0;
   int lastIndex = size - 1;
+  bool isPalin = true;
 
   while(startIndex <= lastIndex) {
 
-    if(ch[startIndex] == ch[lastIndex]) {
-      startIndex++;
-      lastIndex--;
-    } else {
-      return false;
-    }
+    if(ch[startIndex] != ch[lastIndex]) {
+      isPalin = false;
+    } 
+    startIndex++;
+    lastIndex--;
   }
 
-  return true;
+  return isPalin;
 } 
 
 int main() {
