@@ -25,6 +25,19 @@ int main() {
 
     string input = "deeedbbcccbdaa";
 
-    cout << removeDuplicates(input) <<  endl;
+    cout << "Output string: " << removeDuplicates(input) <<  endl;
     return 0;
 }
+
+
+/* TEST CASES
+  1. string inStr = "abbaca";
+    Output string: ca
+
+  2. string inStr = "azxxzy";
+    Output string: ay
+
+  3. string input = "deeedbbcccbdaa";
+    Output string: dedcbd
+
+*/
