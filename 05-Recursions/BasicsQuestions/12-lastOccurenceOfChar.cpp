@@ -58,3 +58,20 @@ int main() {
   cout << "Last Occurrence of " << ch << " is: " << (result - inpStr.c_str()) << endl;
   return 0;
 }
+
+/*
+  1. 
+    Enter string: HeyPrabhu
+    Enter char to get last Occurrence: a
+    Last Occurrence of a is: 5
+    Last Occurrence of a is: 5
+    Last Occurrence of a is: 5
+
+  2.
+    Enter string: abababadd 
+    Enter char to get last Occurrence: a
+    Last Occurrence of a is: 6
+    Last Occurrence of a is: 6
+    Last Occurrence of a is: 6
+
+*/

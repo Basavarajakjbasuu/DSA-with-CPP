@@ -1,6 +1,7 @@
 #include<iostream>
 using namespace std;
 
+//USING: BACKTRACKING
 void printPermutation(string &str, int index) {
   // Base case
   if(index >= str.length()) {
