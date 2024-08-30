@@ -6,61 +6,69 @@ class Node {
     int data;
     Node* next;
 
+    // Default constructor
     Node(){
       this->data = 0;
       this->next = NULL;
     }
 
+    // Parameterized constructor to initialize with data
     Node(int data) {
       this->data = data;
       this->next = NULL;
     }
 
-    
-  ~Node() {
+    // Destructor to free memory when the node is deleted
+    ~Node() {
       cout << "Destructor called: " << this->data << endl; 
-  }
+    }
 };
 
-
 /**
- * LL INSERTION
+ * Linked List Insertion
+ * Insert a node at the head of the linked list
+ * head and tail are passed by reference so the changes reflect in the main function
 */
-//=> Should be PASS BY REFERENCE
 void insertAtHead(Node* &head, Node* &tail, int data) {
+  // Check if the linked list is empty
   if(head == NULL) {
+    // Create a new node with the given data
     Node *newNode = new Node(data);
     head = newNode;
     tail = newNode;
-  }else {
-    //Create a new node
+  } else {
+    // Create a new node
     Node *newNode = new Node(data);
-    // Attach new node to head node
+    // Point the new node's next to the current head
     newNode->next = head;
-    // update head
+    // Update the head to be the new node
     head = newNode;
   }
 }
 
+/**
+ * Print the Linked List
+ * Traverse the linked list from head and print each node's data
+ */
 void printLL(Node *head) {
-  //TO TRAVERSE USE TEMP POINTER => good practice
-
+  // Use a temporary pointer to traverse
   Node *temp = head;
-
-  while (temp != NULL) 
-  {
+  while (temp != NULL) {
     cout << temp->data << "=>";
     temp = temp->next;
   }
   cout << endl;
 }
 
-//Find the length if LL
+/**
+ * Find the Length of the Linked List
+ * Traverse the list and count the nodes
+ */
 int findLength(Node *head) {
-
   Node *temp = head;
   int length = 0;
 
+  // Traverse the list until the end
   while(temp != NULL) {
     length++;
     temp = temp->next;
@@ -69,127 +77,119 @@ int findLength(Node *head) {
   return length;
 }
 
-/***
- * SLL DELETION
-*/
-
+/**
+ * Linked List Deletion
+ * Deletes a node at the given position
+ */
 void deleteNode(Node* &head, Node* &tail, int position){
-  // Empty list
-  if(head == NULL) {
-      cout << "Deletion is not possible" << endl;
+  
+  // Find the length of the linked list
+  int len = findLength(head);
+  // Check if the linked list is empty
+  if(len < 0 || position > len) {
+    cout << "Deletion is not possible" << endl;
+    return;
   }
 
-  int len = findLength(head);
+  // Single element
+  if (head == NULL) {
+    Node *temp = head;
+    delete temp;
+  }
 
-  //Delete from head
+  // Case 1: Deleting the first node (head)
   if(position == 1) {
-    //Delete first node
-
-    // store the deletion node in variable
     Node *deletedNode = head;
-    // Move head to deletion next node(head contain adders of first node)
+    // Move head to the next node
     head = head->next;
-    // Make deletion node address to null
+    // Detach the deleted node
     deletedNode->next = NULL;
-    // clear the memory of deletion node
+    // Delete the node and free memory
     delete deletedNode;
   }
+  // Case 2: Deleting the last node (tail)
   else if(position == len) {
-    //Last node deletion
-
-    //Find Previous node of last node
     Node *prev = head;
-    while(prev ->next != tail) {
+
+    // Traverse to the second-last node
+    while(prev->next != tail) {
       prev = prev->next;
     }
 
-    // Prev node link NULL
+    // Detach the last node and update the tail
     prev->next = NULL;
-    // delete
     delete tail;
-
-    //update the tail
     tail = prev;
   }
+  // Case 3: Deleting a node from the middle of the list
   else {
-    //Middle node deletion
-
-    //step1: set prev/Curr pointer
     Node *previousNode = NULL;
     Node *currentNode = head;
+
+    // Traverse to the desired position
     while(position != 1) {
       position--;
       previousNode = currentNode;
       currentNode = currentNode->next;
     }
 
-    //step2: nextNode address to previous node address
+    // Adjust the pointers to bypass the current node
     previousNode->next = currentNode->next;
-
-    //Step3: Isolate the current node
     currentNode->next = NULL;
 
-    //Delete tht current node
+    // Delete the current node
     delete currentNode;
   }
-  
 }
 
 int main() {
-
-    // Creation of node
-    // Node a;
   Node *head = NULL;
   Node *tail = NULL;
 
+  // Insert nodes at the head of the list
   insertAtHead(head, tail, 100);
   insertAtHead(head, tail, 90);
   insertAtHead(head, tail, 80);
   insertAtHead(head, tail, 70);
 
-
-
+  // Print the initial linked list
   printLL(head);
 
-  // DELETION
+  // Delete the head node (position 1)
   deleteNode(head, tail, 1);
   printLL(head);
-
   /*
     70=>80=>90=>100=>
     Destructor called: 70
     80=>90=>100=>
-  */
+   */
 
-  deleteNode(head, tail, 3);
+  // Delete the tail node (last position)
+  deleteNode(head, tail, findLength(head));
   printLL(head);
-
   /*
-    70=>80=>90=>100=>
-    Destructor called: 70
-    80=>90=>100=>
     Destructor called: 100
     80=>90=>
   */
 
+  // Insert additional nodes at the head
   insertAtHead(head, tail, 70);
   insertAtHead(head, tail, 60);
   insertAtHead(head, tail, 50);
 
-  printLL(head);
-  deleteNode(head, tail, 3);
+  // Print the modified linked list
   printLL(head);
 
+  // Delete a node from the middle (position 3)
+  deleteNode(head, tail, 3);
+  printLL(head);
   /*
-    70=>80=>90=>100=>
-    Destructor called: 70
-    80=>90=>100=>
-    Destructor called: 100
-    80=>90=>
     50=>60=>70=>80=>90=>
     Destructor called: 70
     50=>60=>80=>90=>
   */
+  deleteNode(head, tail, 45);
+  // Deletion is not possible
 
   return 0;
 }
