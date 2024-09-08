@@ -1,43 +1,42 @@
-#include<iostream>
-using namespace std;
- 
-void shiftNegativeOneSide(int arr[], int size) {
+#include <iostream> 
+using namespace std; 
 
-  // Two pointer approach
-  int isNegativeNumIndex = 0;
+// Function to shift all negative numbers to one side using the two-pointer approach.
+void shiftNegativeOneSide(int arr[], int size) { 
+    int negativePointer = 0;  // Points to where the next negative number should be placed.
 
-  for (int index = 0; index < size; index++)
-  {
-    if(arr[index] < 0) {
-      swap(arr[index], arr[isNegativeNumIndex]);
-      isNegativeNumIndex++;
-    }
-  }
-  
-}
+    // Iterate through the array
+    for (int i = 0; i < size; i++) { 
+        // If the current element is negative, swap it with the element at negativePointer.
+        if (arr[i] < 0) { 
+            swap(arr[i], arr[negativePointer]); 
+            negativePointer++;  // Move the negativePointer to the next position.
+        } 
+    } 
+} 
 
-void outputArray(int arr[], int n) {
-  cout << "Displaying array: ";
-  for (int i = 0; i < n; i++)
-  {
-    cout << arr[i] << " ";
-  }
-  cout << endl;
-}
+// Helper function to print the contents of the array.
+void outputArray(int arr[], int n) { 
+    cout << "Displaying array: "; 
+    for (int i = 0; i < n; i++) { 
+        cout << arr[i] << " "; 
+    } 
+    cout << endl; 
+} 
 
-int main() {
+int main() { 
+    int arr[9] = {7, -6, 4, 5, -6, 7, 3, 5, -3};  // Example input array.
+    int size = 9;  // Size of the array.
 
-  // int arr[10] = {-23, 10, 4, 34, 56, -34, 67, 0, -3, -1};
+    // Call the function to shift negative numbers to one side.
+    shiftNegativeOneSide(arr, size); 
 
-  int arr[9] = {7, -6, 4, 5, -6, 7, 3, 5, -3};
-  // int arr[6] = {3, -2, -1, 0, -4, 5};
-
-  int size = 9;
-  shiftNegativeOneSide(arr, size);
-  outputArray(arr, size);
-  return 0;
-}
+    // Output the modified array.
+    outputArray(arr, size); 
+    return 0; 
+} 
 
 /*
-  Displaying array: -23 -34 -3 -1 56 10 67 0 4 34
+Example Output:
+Displaying array: -6 -6 -3 5 4 7 3 5 7
 */
