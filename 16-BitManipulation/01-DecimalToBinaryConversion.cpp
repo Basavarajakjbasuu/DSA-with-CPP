@@ -1,48 +1,59 @@
-#include<iostream>
-#include<cstring>
-using namespace std;
+#include<iostream> 
+#include<cstring> 
+using namespace std; 
 
-string convertToBinary(int num) {
-  string res = "";
-
-  while(num != 0) {
-    if(num%2 == 1) res += '1';
-    else res +='0';
-    num /=2;
-  }
-
-  //Reverse the result
-  int left = 0, right = res.length() - 1;
-  while (left < right) {
-    swap(res[left], res[right]);
-    left++;
-    right--;
-  }
-  return res;
-}
-
-int main() {
+// Function to convert a decimal number to binary
+string convertToBinary(int num) { 
+    string res = ""; // Initialize an empty string to store the binary result
   
-  int deciNum = 0;
+    // Loop until the number becomes 0
+    while(num != 0) { 
+        // If the number is odd, append '1', otherwise append '0'
+        if(num % 2 == 1) 
+            res += '1'; 
+        else 
+            res += '0'; 
 
-  cout << "Enter decimal Num: ";
-  cin >>deciNum;
+        // Divide the number by 2 (shifting bits to the right)
+        num /= 2; 
+    } 
 
-  cout << "Binary equivalent of " << deciNum << " is: " << convertToBinary(deciNum)<< endl;
-  return 0;
-}
+    // Now reverse the result as the bits are in reverse order
+    int left = 0, right = res.length() - 1; 
+    while (left < right) { 
+        // Swap characters at positions 'left' and 'right'
+        swap(res[left], res[right]); 
+        left++; 
+        right--; 
+    } 
 
-/*
-  -------------
-  TC - log2 N
-  SC - log2 N
-  ------------
-  Enter decimal Num: 13
-  Binary equivalent of 13 is: 1101
+    return res; // Return the final binary representation
+} 
+  
+int main() { 
+    int deciNum = 0; // Variable to store the decimal number
+  
+    // Prompt the user to enter a decimal number
+    cout << "Enter decimal Num: "; 
+    cin >> deciNum; // Read user input
+  
+    // Display the binary equivalent of the entered number
+    cout << "Binary equivalent of " << deciNum << " is: " << convertToBinary(deciNum) << endl; 
+    return 0; // End of the program
+} 
 
-  Enter decimal Num: 15
-  Binary equivalent of 15 is: 1111
+/* 
+   Time Complexity (TC): O(log2 N) 
+   Space Complexity (SC): O(log2 N) 
 
-  Enter decimal Num: 1024
-  Binary equivalent of 1024 is: 10000000000
+   Sample Input/Output:
+   --------------------
+   Enter decimal Num: 13 
+   Binary equivalent of 13 is: 1101 
+  
+   Enter decimal Num: 15 
+   Binary equivalent of 15 is: 1111 
+  
+   Enter decimal Num: 1024 
+   Binary equivalent of 1024 is: 10000000000 
 */
