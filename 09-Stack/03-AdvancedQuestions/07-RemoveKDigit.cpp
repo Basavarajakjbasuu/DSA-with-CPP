@@ -1,73 +1,71 @@
 #include <iostream>
 #include <stack>
-#include <algorithm> // For reverse
+#include <string>
+#include <algorithm>
 using namespace std;
 
 class Solution {
 public:
     string removeKdigits(string num, int k) {
-        string result;
+        string answer;
         stack<char> st;
 
-        // Traverse each digit in the number 💻
+        // 🚀 Iterate through each digit in the input string
         for (auto digit : num) {
-
-            // Remove elements from the stack while the top is larger than current digit and `k` is still positive ⬇️
+            // 🔄 Remove larger digits from the stack if k > 0
             while (!st.empty() && st.top() > digit && k > 0) {
-                st.pop();
-                k--;
+                st.pop();  // ❌ Pop the larger digit
+                k--;       // ⬇️ Decrease k since we removed one digit
             }
-
-            // Push the current digit onto the stack 🧱
-            st.push(digit);
+            st.push(digit);  // 👉 Push the current digit onto the stack
         }
 
-        // If there are still digits to remove, pop remaining digits from the stack ⬇️
-        while (!st.empty() && k > 0) {
-            st.pop();
+        // 🚨 If there are still digits left to remove (k > 0)
+        while (k > 0 && !st.empty()) {
+            st.pop();  // ❌ Remove extra digits
             k--;
         }
 
-        // Build the result string by reversing the stack 🔄
+        // 📦 Build the final answer string from the stack
         while (!st.empty()) {
-            result.push_back(st.top());
+            answer.push_back(st.top());
             st.pop();
         }
 
-        // Remove leading zeros 🚫0️⃣
-        while (result.size() > 0 && result.back() == '0') {
-            result.pop_back();
+        // 🧹 Remove leading zeros
+        while (answer.size() > 0 && answer.back() == '0') {
+            answer.pop_back();
         }
 
-        // Reverse the result to get the correct order 🔄
-        reverse(result.begin(), result.end());
+        reverse(answer.begin(), answer.end());  // 🔄 Reverse the string to correct order
 
-        // Return "0" if the result is empty 🆘
-        return result.empty() ? "0" : result;
+        // 🏁 Return the result, or "0" if the answer is empty
+        return answer.empty() ? "0" : answer;
     }
 };
 
-// Function to run the code locally
+// 👨‍💻 Main function for testing the code locally
 int main() {
-    Solution sol;
+    Solution solution;
 
-    string num = "1432219";  // Example input
+    // 🧪 Example test case
+    string num = "1432219";
     int k = 3;
+    string result = solution.removeKdigits(num, k);
 
-    // Output the result
-    cout << "Result after removing " << k << " digits: " << sol.removeKdigits(num, k) << endl;
+    // 📤 Output the result after removing k digits
+    cout << "Resulting number: " << result << endl;
 
     return 0;
 }
 
 /*
-    Time Complexity: O(n)
-    - We traverse the string `num` once (O(n)) and perform push/pop operations on the stack which are O(1).
-    - Reversing the result string and removing leading zeros are also O(n) operations.
+⏳ Time Complexity:
+- The time complexity is O(n), where n is the number of digits in the input string. Each digit is pushed and popped from the stack at most once.
 
-    Space Complexity: O(n)
-    - We use a stack to store the digits, and in the worst case, we might push all `n` digits onto the stack.
+💾 Space Complexity:
+- The space complexity is O(n), where n is the number of digits in the input string, as we use a stack to store the digits.
 
-    Output:
-      Result after removing 3 digits: 1219
+📊 Example Output:
+Resulting number: 1219
 */
