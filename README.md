@@ -13,7 +13,7 @@ Welcome to the **DSA Master Repository**! This repository is designed to cover *
 
 Each concept is organized in its own folder with:
 1. **Explanation** of the concept.
-2. **Code implementation** in C++, Python, or Java.
+2. **Code implementation** in C++.
 3. **Solved questions** with explanations and time/space complexities.
 
 ## 🙌 Acknowledgments
