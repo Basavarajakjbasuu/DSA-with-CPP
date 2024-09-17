@@ -15,6 +15,9 @@ struct TreeNode {
 class Solution {
 public:
     // 🌳 Helper function to calculate the height of the binary tree
+    // Algorithm:
+    // 1️⃣ Recursively calculate the height of the left and right subtrees.
+    // 2️⃣ The height of the current node is the max of left and right heights + 1.
     int height(TreeNode* root) {
         // 🛑 Base case: If the root is null, return height 0
         if (root == nullptr) {
@@ -30,6 +33,12 @@ public:
     }
 
     // ⚖️ Function to check if the tree is balanced
+    // A tree is balanced if the height difference between left and right subtrees is <= 1.
+    // Algorithm:
+    // 1️⃣ Recursively check for each node if its left and right subtrees are balanced.
+    // 2️⃣ Use the height function to calculate the heights of left and right subtrees.
+    // 3️⃣ If the height difference between left and right subtrees is <= 1, it is balanced.
+    // 4️⃣ Continue this check recursively for all nodes.
     bool isBalanced(TreeNode* root) {
         // 🛑 Base case: If the root is null, it's balanced
         if (root == nullptr) {
