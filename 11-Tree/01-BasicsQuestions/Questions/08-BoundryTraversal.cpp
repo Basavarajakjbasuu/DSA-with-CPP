@@ -1,113 +1,158 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
 
+// 🚧 Definition for a binary tree node
+class TreeNode {
+public:
+    int value;
+    TreeNode* left;
+    TreeNode* right;
 
-class Node {
-
-  public:
-    int data;
-    Node* left;
-    Node* right;
-
-    Node(int val) {
-      this->data = val;
-      this->left = NULL;
-      this->right = NULL;
-    }
+    TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}
 };
 
+// 🛠️ Function to create a binary tree from user input
+// Algorithm:
+// 1️⃣ Read the value for the current node.
+// 2️⃣ If the value is -1, return NULL (no node).
+// 3️⃣ Create a new node with the read value.
+// 4️⃣ Recursively create the left and right subtrees.
+// 5️⃣ Return the newly created node.
+TreeNode* createTree() {
+    int nodeValue;
+    cin >> nodeValue;
 
-Node *createTree() {
-  // cout << "Enter the value for Node: " << endl;
-  int data;
-  cin>> data;
+    // 🛑 Base case: If input is -1, return NULL
+    if (nodeValue == -1) {
+        return nullptr;
+    }
 
-  // If we dont want node
-  if(data == -1) {
-    return NULL;
-  } 
+    // ✨ Step 1: Create the new node
+    TreeNode* newNode = new TreeNode(nodeValue);
 
-  //Step1: Create Node
-  Node *newNode = new Node(data);
+    // 🔄 Step 2: Create the left subtree
+    newNode->left = createTree();
+    // 🔄 Step 3: Create the right subtree
+    newNode->right = createTree();
 
-  //Step2: Create left subtree
-  // cout<< "Left of node: " << newNode->data << endl;
-  newNode->left = createTree();
-  //Step3: Create right subtree
-  // cout<< "Right of node: " << newNode->data << endl;
-  newNode->right = createTree();  
-
-  return newNode;
+    return newNode;
 }
 
+// 🌿 Function to print the left boundary of the binary tree
+// Algorithm:
+// 1️⃣ Print the value of the current node.
+// 2️⃣ Recursively print the left boundary or if left is NULL, print the right boundary.
+void printLeftBoundary(TreeNode* treeRoot) {
+    if (treeRoot == nullptr) {
+        return;
+    }
 
-void printLeftBoundary(Node* root) {
-  if(root == NULL)
-    return;
+    // 🛑 Base case: If it's a leaf node, don't print
+    if (treeRoot->left == nullptr && treeRoot->right == nullptr) {
+        return;
+    }
 
-  if(root->left == NULL && root->right == NULL) 
-    return;
-
-  cout << root->data << " ";
-  if(root->left != NULL) {
-    printLeftBoundary(root->left);
-  } else {
-    printLeftBoundary(root->right);
-  }
+    cout << treeRoot->value << " ";
+    if (treeRoot->left != nullptr) {
+        printLeftBoundary(treeRoot->left);
+    } else {
+        printLeftBoundary(treeRoot->right);
+    }
 }
 
-void printLeafBoundary(Node* root) {
-  if(root == NULL)
-    return;
+// 🍂 Function to print leaf nodes of the binary tree
+// Algorithm:
+// 1️⃣ If the current node is a leaf, print its value.
+// 2️⃣ Recursively print leaf nodes for left and right subtrees.
+void printLeafBoundary(TreeNode* treeRoot) {
+    if (treeRoot == nullptr) {
+        return;
+    }
 
-  if(root->left == NULL && root->right == NULL) {
-    cout << root->data << " ";
-  }
+    // 🌱 If it's a leaf node, print the value
+    if (treeRoot->left == nullptr && treeRoot->right == nullptr) {
+        cout << treeRoot->value << " ";
+    }
 
-  printLeafBoundary(root->left);
-  printLeafBoundary(root->right);
+    // 🔄 Recursively print leaves in the left and right subtrees
+    printLeafBoundary(treeRoot->left);
+    printLeafBoundary(treeRoot->right);
 }
 
-void printRightBoundary(Node* root) {
-  if(root == NULL)
-    return;
+// 🍃 Function to print the right boundary of the binary tree
+// Algorithm:
+// 1️⃣ Recursively print the right boundary or if right is NULL, print the left boundary.
+// 2️⃣ Print the current node's value after the recursive calls.
+void printRightBoundary(TreeNode* treeRoot) {
+    if (treeRoot == nullptr) {
+        return;
+    }
 
-  if(root->left == NULL && root->right == NULL) 
-    return;
+    // 🛑 Base case: If it's a leaf node, don't print
+    if (treeRoot->left == nullptr && treeRoot->right == nullptr) {
+        return;
+    }
 
-  if(root->right != NULL) {
-    printRightBoundary(root->right);
-  } else {
-    printRightBoundary(root->left);
-  }
-  cout << root->data << " ";
+    if (treeRoot->right != nullptr) {
+        printRightBoundary(treeRoot->right);
+    } else {
+        printRightBoundary(treeRoot->left);
+    }
+    cout << treeRoot->value << " ";
 }
 
-void boundaryTraversal(Node* root) {
-  if(root == NULL)
-    return;
+// 🏞️ Function to perform boundary traversal of the binary tree
+// Algorithm:
+// 1️⃣ Print the root node.
+// 2️⃣ Print the left boundary, leaf nodes, and right boundary.
+void boundaryTraversal(TreeNode* treeRoot) {
+    if (treeRoot == nullptr) {
+        return;
+    }
 
-  // printLeftBoundary(root);
-  // printLeafBoundary(root);
-  
-  // if(root->right != NULL) {
-  //   printRightBoundary(root->right);
-  // }else {
-  //   printRightBoundary(root->left);
-  // }
-
-  cout << root->data << " ";
-  printLeftBoundary(root->left);
-  printLeafBoundary(root->left);
-  printLeafBoundary(root->right);
-  printRightBoundary(root->right);
+    // ✨ Print the root node
+    cout << treeRoot->value << " ";
+    // 🔄 Print the left boundary
+    printLeftBoundary(treeRoot->left);
+    // 🔄 Print the leaf nodes
+    printLeafBoundary(treeRoot->left);
+    printLeafBoundary(treeRoot->right);
+    // 🔄 Print the right boundary
+    if (treeRoot->right != nullptr) {
+        printRightBoundary(treeRoot->right);
+    } else {
+        printRightBoundary(treeRoot->left);
+    }
 }
 
+// 🏁 Main function for testing
 int main() {
-  Node* root = createTree();
+    // ✨ Create a tree from user input
+    TreeNode* root = createTree();
 
-  boundaryTraversal(root); // 10 20 40 110 111 80 112 113 90 60 30
-  return 0;
+    // 📤 Perform boundary traversal and print the result
+    boundaryTraversal(root); // Example output: 10 20 40 110 111 80 60 90 112 113 180 120 30 
+
+    return 0;
 }
 
-//10 20 40 -1 -1 50 70 110 -1 -1 111 -1 -1 80 -1 -1 30 -1 60 -1 90 112 -1 -1 113 -1 -1
+/*
+⏳ Time Complexity:
+- O(n), where n is the number of nodes in the tree. Each node is visited once.
+
+💾 Space Complexity:
+- O(h), where h is the height of the tree, due to recursive stack space.
+
+📊 Example Output:
+Input:10 20 40 -1 -1 50 70 110 -1 -1 111 -1 -1 80 -1 -1 30 60 -1 -1 120 90 -1 -1 180 112 -1 -1 113 -1 -1
+                          10
+                        /    \
+                      20      30
+                     /  \    /  \
+                   40   50  60  120 
+                       /  \    /  \
+                     70   80  90  180
+                    /  \          /  \
+                  110  111      112  113
+output: 10 20 40 110 111 80 60 90 112 113 180 120 30 
+*/
