@@ -1,86 +1,107 @@
-#include<iostream>
-#include<map>
-#include<queue>
+#include <iostream>
+#include <queue>
+#include <map>
+
 using namespace std;
 
+/**
+ * Definition for a binary tree node.
+ */
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
 
-class Node {
+class Solution {
+public:
+    // 🔍 Algorithm to print the top view of a binary tree:
+    // 1️⃣ Use a level-order traversal approach (BFS) to ensure we visit nodes in level order.
+    // 2️⃣ Track the horizontal distance (hd) from the root for each node.
+    // 3️⃣ Store the first node encountered at each hd in a map.
+    // 4️⃣ Finally, print the nodes from leftmost to rightmost horizontal distance.
+    
+    void printTopView(TreeNode* root) {
+        if (root == NULL) return;  // 🛑 If the tree is empty, return.
 
-  public:
-    int data;
-    Node* left;
-    Node* right;
+        // 🗺️ Map to store the first node encountered at each horizontal distance.
+        map<int, int> hdToNodeMap;
+        
+        // 📊 Queue for level-order traversal, storing nodes along with their horizontal distance.
+        queue<pair<TreeNode*, int>> q;
 
-    Node(int val) {
-      this->data = val;
-      this->left = NULL;
-      this->right = NULL;
+        // 🌟 Start with the root node at horizontal distance 0.
+        q.push(make_pair(root, 0));
+
+        while (!q.empty()) {
+            pair<TreeNode*, int> temp = q.front();
+            q.pop();
+
+            TreeNode* currentNode = temp.first;
+            int hd = temp.second;
+
+            // If there is no entry for this horizontal distance, store the node value.
+            if (hdToNodeMap.find(hd) == hdToNodeMap.end()) {
+                hdToNodeMap[hd] = currentNode->val;
+            }
+
+            // 🚶 Traverse the left child with hd - 1.
+            if (currentNode->left != NULL) {
+                q.push(make_pair(currentNode->left, hd - 1));
+            }
+
+            // 🚶 Traverse the right child with hd + 1.
+            if (currentNode->right != NULL) {
+                q.push(make_pair(currentNode->right, hd + 1));
+            }
+        }
+
+        // 🎯 Print the top view nodes in order of horizontal distance.
+        cout << "Top View: ";
+        for (auto it : hdToNodeMap) {
+            cout << it.second << " ";
+        }
+        cout << endl;
     }
 };
 
-
-Node *createTree() {
-  // cout << "Enter the value for Node: " << endl;
-  int data;
-  cin>> data;
-
-  // If we dont want node
-  if(data == -1) {
-    return NULL;
-  } 
-
-  //Step1: Create Node
-  Node *newNode = new Node(data);
-
-  //Step2: Create left subtree
-  // cout<< "Left of node: " << newNode->data << endl;
-  newNode->left = createTree();
-  //Step3: Create right subtree
-  // cout<< "Right of node: " << newNode->data << endl;
-  newNode->right = createTree();  
-
-  return newNode;
-}
-
-void printTopView(Node* root) {
-  // hd- horizontalDistance
-  map<int, int> hdToNodeMap;
-  queue<pair <Node*, int>> q;
-
-  q.push(make_pair(root, 0));
-
-  while(!q.empty()) {
-    pair<Node*, int> temp = q.front();
-    q.pop();
-
-    Node* frontNode = temp.first;
-    int hd = temp.second;
-
-    // If there is no entry for hd in map, then create a new entry
-    if(hdToNodeMap.find(hd) == hdToNodeMap.end()) {
-      hdToNodeMap[hd] = frontNode->data;
-    }
-
-    if(frontNode->left != NULL) {
-      q.push(make_pair(frontNode->left, hd-1));
-    }
-
-    if(frontNode->right != NULL) {
-      q.push(make_pair(frontNode->right, hd+1));
-    }
-  }  
-
-  cout << "Printing top view: ";
-  for(auto i: hdToNodeMap) {
-    cout << i.second << " ";
-  }
-}
-
+// 🧪 Example usage for testing
 int main() {
-  Node* root = createTree();
+    Solution solution;
 
-  printTopView(root); //Printing top view: 40 20 10 30 60 90 113 
-  return 0;
+    // Create a sample binary tree:
+    //          10
+    //         /  \
+    //       20    30
+    //      /  \     \
+    //     40  50     60
+    //         /        \
+    //       70         90
+    TreeNode* root = new TreeNode(10);
+    root->left = new TreeNode(20);
+    root->right = new TreeNode(30);
+    root->left->left = new TreeNode(40);
+    root->left->right = new TreeNode(50);
+    root->right->right = new TreeNode(60);
+    root->left->right->left = new TreeNode(70);
+    root->right->right->right = new TreeNode(90);
+
+    // Call the function to print the top view.
+    solution.printTopView(root);
+
+    return 0;
 }
 
-//10 20 40 -1 -1 50 70 110 -1 -1 111 -1 -1 80 -1 -1 30 -1 60 -1 90 112 -1 -1 113 -1 -1
+/*
+⏳ Time Complexity:
+- O(n), where n is the number of nodes in the tree. Each node is visited once.
+
+💾 Space Complexity:
+- O(n), where n is the number of nodes, due to storing nodes in the queue and the map.
+
+📊 Example Output:
+Top View: 40 20 10 30 60 90
+*/
