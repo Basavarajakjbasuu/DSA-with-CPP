@@ -25,89 +25,111 @@ public:
     }
 };
 
-// Algorithm for inserting a word into the Trie:
-// 1️⃣ If the word is empty, mark the current node as terminal.
+// 🔄 Algorithm for inserting a word into the Trie:
+// 1️⃣ Base Case: If the word is empty, mark the current node as terminal.
 // 2️⃣ Get the first character of the word and calculate its index.
 // 3️⃣ If the child node corresponding to that character exists, move to it.
 // 4️⃣ If it does not exist, create a new node and link it.
 // 5️⃣ Recursively insert the remaining part of the word.
 void insertWord(TrieNode* root, const string& word) {
-    // 🛑 Base case: If the word is empty, mark the current node as terminal
-    if (word.empty()) {
+    if (word.empty()) { // Base case: End of word, mark as terminal
         root->isTerminal = true;
         return;
     }
 
-    // Get the first character and its corresponding index
-    char firstChar = word[0];
-    int indexOfFirstChar = firstChar - 'a'; // Calculate index (0-25)
-    TrieNode* child;
+    char firstChar = word[0]; // First character of the word
+    int index = firstChar - 'a'; // Calculate index for child
 
-    // Check if the child node exists
-    if (root->children[indexOfFirstChar] != NULL) {
-        // Child is present
-        child = root->children[indexOfFirstChar];
-    } else {
-        // Child is absent; create a new node
-        child = new TrieNode(firstChar);
-        root->children[indexOfFirstChar] = child; // Link the new node
+    // If child node doesn't exist, create it
+    if (root->children[index] == NULL) {
+        root->children[index] = new TrieNode(firstChar);
     }
 
-    // Recursively insert the remaining part of the word
-    insertWord(child, word.substr(1));
+    // Recursively insert the remaining word
+    insertWord(root->children[index], word.substr(1));
 }
 
-// Function to search for a word in the Trie
+// 🔍 Function to search for a word in the Trie:
+// 1️⃣ Traverse through the Trie for each character of the word.
+// 2️⃣ If at any point the required character is missing, return false.
+// 3️⃣ If the word is completely traversed, check if the last node is terminal.
 bool searchWord(TrieNode* root, const string& word) {
-    // 🛑 Base case: If the word is empty, return if current node is terminal
-    if (word.empty()) {
+    if (word.empty()) { // Base case: End of word, check if terminal
         return root->isTerminal;
     }
 
-    // Get the first character and its corresponding index
     char firstChar = word[0];
-    int indexOfFirstChar = firstChar - 'a'; // Calculate index (0-25)
-    TrieNode* child;
+    int index = firstChar - 'a';
 
-    // Searching
-    if (root->children[indexOfFirstChar] != NULL) {
-        // Child is present
-        child = root->children[indexOfFirstChar];
-    } else {
-        // Child is absent; word not found
+    // If child node doesn't exist, word is not present
+    if (root->children[index] == NULL) {
         return false;
     }
 
-    // Recursively search for the remaining part of the word
-    return searchWord(child, word.substr(1));
+    // Recursively search the rest of the word
+    return searchWord(root->children[index], word.substr(1));
 }
 
+// 🗑️ Function to delete a word from the Trie:
+// 1️⃣ Traverse through the Trie for each character.
+// 2️⃣ When the word ends, mark the last node as non-terminal.
+void deleteWord(TrieNode* root, const string& word) {
+    if (word.empty()) { // Base case: End of word, mark as non-terminal
+        root->isTerminal = false;
+        return;
+    }
+
+    char firstChar = word[0];
+    int index = firstChar - 'a';
+
+    // If the child exists, recursively delete the remaining part of the word
+    if (root->children[index] != NULL) {
+        deleteWord(root->children[index], word.substr(1));
+    }
+}
+
+// 🗑️ Function to free the entire Trie
+void deleteTrie(TrieNode* root) {
+    delete root; // Destructor will handle child deletion
+}
+
+// 🏁 Main function to test Trie insertion, search, and deletion
 int main() {
-    // 🏁 Main function to test Trie insertion and search
     TrieNode* root = new TrieNode('-'); // Create the root of the Trie
 
-    // Example words to insert into the Trie
+    // Insert example words into the Trie
     insertWord(root, "hello");
     insertWord(root, "world");
+    insertWord(root, "bassu");
+    insertWord(root, "sham");
 
-    // Searching for words in the Trie and displaying results
+    // Search for words in the Trie and display results
     cout << (searchWord(root, "hello") ? "Found" : "Not Found") << endl; // Should print "Found"
     cout << (searchWord(root, "world") ? "Found" : "Not Found") << endl; // Should print "Found"
-    cout << (searchWord(root, "test") ? "Found" : "Not Found") << endl; // Should print "Not Found"
+    cout << (searchWord(root, "test") ? "Found" : "Not Found") << endl;  // Should print "Not Found"
 
-    delete root; // Clean up allocated memory for the Trie
+    // Delete a word and search again
+    deleteWord(root, "hello");
+    cout << (searchWord(root, "hello") ? "Found" : "Not Found") << endl; // Should print "Not Found"
+
+    // Clean up allocated memory for the Trie
+    deleteTrie(root);
+
     return 0;
 }
 
 /*
 ⏳ Time Complexity:
-- O(m) for inserting a word of length m, since we iterate over each character.
+- Insertion: O(m), where m is the length of the word.
+- Search: O(m), where m is the length of the word.
+- Deletion: O(m), where m is the length of the word.
 
 💾 Space Complexity:
-- O(m) for storing the word, plus O(n) for the Trie nodes created, where n is the number of unique characters in the Trie.
+- O(m * n), where m is the length of the word and n is the number of words.
 
 📊 Example Output:
 - Found
 - Found
+- Not Found
 - Not Found
 */
