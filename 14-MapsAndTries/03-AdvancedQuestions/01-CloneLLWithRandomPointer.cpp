@@ -16,7 +16,7 @@ public:
     }
 };
 
-class Solution {
+class Solution1 {
 public:
     // 📜 Helper function to recursively copy nodes
     Node* helper(Node* head, unordered_map<Node*, Node*>& mp) {
@@ -51,6 +51,54 @@ public:
     Node* copyRandomList(Node* head) {
         unordered_map<Node*, Node*> mp; // Map to store old nodes and their copies
         return helper(head, mp); // Start the recursive copying process
+    }
+};
+
+class Solution {
+public:
+    // 📜 Function to create a deep copy of the linked list with random pointers
+    // Algorithm:
+    // 1️⃣ If the head is null, return null.
+    // 2️⃣ Clone the nodes by inserting a new node next to each original node.
+    // 3️⃣ Set the random pointers of the cloned nodes using the original nodes' random pointers.
+    // 4️⃣ Detach the original and cloned nodes to restore the original list and separate the cloned list.
+    // 5️⃣ Return the head of the cloned list.
+    Node* copyRandomList(Node* head) {
+        // 🛑 Base case: If the head is null, return null
+        if (!head) return nullptr;
+
+        Node* it = head; 
+
+        // 🔄 Clone A->A'
+        while(it) {
+            Node* clonedNode = new Node(it->val);
+            clonedNode->next = it->next; // Link new node to the next original node
+            it->next = clonedNode; // Link original node to the cloned node
+            it = clonedNode->next; // Move to the next original node
+        }
+
+        it = head;
+
+        // 🔄 Attach old node random to new node random
+        while(it) {
+            Node* clonedNode = it->next;
+            clonedNode->random = it->random ? it->random->next : nullptr; // Set random pointer
+            it = clonedNode->next; // Skip the cloned node
+        }
+
+        // 🔄 Detach old nodes from cloned nodes
+        it = head;
+        Node* clonedHead = it->next; // Head of the cloned list
+        while(it) {
+            Node* clonedNode = it->next; // Current cloned node
+            it->next = clonedNode->next; // Restore the original list
+            if (clonedNode->next) {
+                clonedNode->next = clonedNode->next->next; // Link cloned nodes
+            }
+            it = it->next; // Move to the next original node
+        }
+
+        return clonedHead; // 🎉 Return the head of the cloned list
     }
 };
 
