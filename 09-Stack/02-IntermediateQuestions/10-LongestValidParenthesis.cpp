@@ -6,12 +6,14 @@ using namespace std;
 class Solution {
 public:
     /*
-       * 🧠 Algorithm Explanation:
-      * 1. We use a stack to track indices of opening parentheses '('.
-      * 2. When encountering a closing parenthesis ')', we check for matching '('.
-      * 3. If a valid pair is found, we calculate the length of the valid substring.
-      * 4. The stack helps us ensure balanced parentheses and also allows us to calculate the length efficiently.
-      * 5. In case of an unmatched ')' (or invalid sequence), we reset the base index in the stack.
+      📝 Algorithm:
+    1. Initialize a stack `st` with -1 to handle edge cases like the first valid parenthesis.
+    2. Traverse the string `s` character by character:
+        - If the character is '(', push its index onto the stack.
+        - If the character is ')', pop the top of the stack.
+          a. If the stack is empty after popping, push the current index.
+          b. If the stack is not empty, calculate the length of the valid parentheses substring as `i - st.top()`. Update `maxLen` if this is the largest.
+    3. Return the value of `maxLen`.
     */
     // 🧩 Function to find the longest valid parentheses substring
     int longestValidParentheses(string s) {
