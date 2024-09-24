@@ -111,7 +111,7 @@ int main() {
 - Level Order Traversal: O(n), due to the queue storing nodes.
 
 📊 Example Input:
-  Enter data: 50
+  Enter data (enter -1 to stop): 50
   Enter data: 30
   Enter data: 20
   Enter data: 25
