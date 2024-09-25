@@ -35,7 +35,7 @@ public:
         int currentDiameter = leftHeight + rightHeight;
         diameter = max(diameter, currentDiameter);
         
-        // Return the height of the current node
+        // Return the height of the current node +1 is important
         return max(leftHeight, rightHeight) + 1;
     }
     
@@ -78,6 +78,6 @@ int main () {
   Time Complexity: O(n), where n is the number of nodes in the tree.
 
   Space Complexity: O(h), where h is the height of the tree (due to recursion stack).
-  
+
   Diameter of the tree: 3
 */
