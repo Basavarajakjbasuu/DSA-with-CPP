@@ -90,6 +90,35 @@ public:
     }
 
     /**
+     * 🌟 Space Optimized Tabulation Solution:
+     * Uses only two variables (`prev` and `next`) instead of a full dp array, thus reducing space complexity to O(1).
+     * 
+     * Time Complexity: O(n) 🕒
+     * Space Complexity: O(1) 🧠
+     */
+    int solveUsingTabulationSO(vector<int>& nums) {
+      int n = nums.size();
+      if (n == 0) return 0;
+      if (n == 1) return nums[0];
+
+      int prev = nums[n-1];  // Max if we rob the last house
+      int next = 0;  // No house beyond the last one, so next is 0
+      int curr = 0;  // Current house calculation
+
+      for(int index = n-2; index >= 0; index--) {
+          int include = nums[index] + next;  // Rob current house, add `next`
+          int exclude = prev;  // Skip current house
+
+          curr = max(include, exclude);
+          next = prev;  // Update next to be previous
+          prev = curr;  // Move current to previous for the next iteration
+      }
+
+      return prev;  // Final answer is in prev
+    }
+
+
+    /**
      * 🌟 Driver Function:
      * 
      * Calls the tabulation solution and returns the result.
@@ -98,7 +127,7 @@ public:
      * Space Complexity: O(n) 🧠
      */
     int rob(vector<int>& nums) {
-        return solveUsingTabulation(nums);
+        return solveUsingTabulationSO(nums);
     }
 };
 
