@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-// 🌟 Class to calculate Fibonacci number using Top-Down and Bottom-Up DP approaches
+// 🌟 Solution class to calculate Fibonacci number using various DP approaches
 class Solution {
 public:
     const int MOD = 1e9 + 7;  // MOD constant to handle large numbers
@@ -18,7 +18,7 @@ public:
      * Time Complexity: O(n) 🕒 (linear, due to memoization avoiding redundant calls).
      * Space Complexity: O(n) 🧠 (due to the recursion stack and DP array).
      */
-    long long int getFiboTopDown(int n, vector<long long int>& dp) {
+    long long int getFibo(int n, vector<long long int>& dp) {
         if (n == 0 || n == 1) {
             return n;  // Base cases
         }
@@ -29,15 +29,15 @@ public:
         }
         
         // 🟢 Compute and store result in dp array
-        dp[n] = (getFiboTopDown(n-1, dp) + getFiboTopDown(n-2, dp)) % MOD;
+        dp[n] = (getFibo(n-1, dp) + getFibo(n-2, dp)) % MOD;
         return dp[n];
     }
-    
-    // 🚀 Function to compute Fibonacci using the Top-Down approach
-    long long int topDownFibonacci(int n) {
+
+    // 🚀 Top-Down Fibonacci function
+    long long int topDown(int n) {
         if (n <= 1) return n;  // Base case
         vector<long long int> dp(n + 1, -1);  // DP array initialized to -1
-        return getFiboTopDown(n, dp);
+        return getFibo(n, dp);  // Start recursion with memoization
     }
 
     /**
@@ -49,35 +49,64 @@ public:
      * Time Complexity: O(n) 🕒 (linear traversal).
      * Space Complexity: O(n) 🧠 (DP array of size n).
      */
-    long long int bottomUpFibonacci(int n) {
+    long long int bottomUp(int n) {
         if (n <= 1) return n;  // Base case
-        vector<long long int> dp(n + 1, 0);  // DP array
+        vector<long long int> dp(n + 1, -1);  // DP array
         
         dp[0] = 0;  // Fibonacci of 0
         dp[1] = 1;  // Fibonacci of 1
         
         // 🔵 Fill the DP array iteratively
         for (int i = 2; i <= n; i++) {
-            dp[i] = (dp[i-1] + dp[i-2]) % MOD;  // Apply modulo at each step
+            dp[i] = (dp[i - 1] + dp[i - 2]) % MOD;  // Apply modulo at each step
         }
         
         return dp[n];  // Return the Fibonacci value for n
+    }
+
+    /**
+     * 🌟 Bottom-Up Space Optimized Approach:
+     * 1️⃣ Instead of using a full DP array, maintain only two variables to store previous values.
+     * 2️⃣ Iteratively compute the Fibonacci number, keeping track of the last two values.
+     *
+     * Time Complexity: O(n) 🕒 (linear traversal).
+     * Space Complexity: O(1) 🧠 (constant space used by two variables).
+     */
+    long long int bottomUpSpaceOptimised(int n) {
+        if (n <= 1) return n;  // Base case
+
+        int prev = 0;  // Previous Fibonacci number (F(n-2))
+        int curr = 1;  // Current Fibonacci number (F(n-1))
+        int ans = 0;   // To store the current Fibonacci number
+        
+        // 🟢 Iteratively compute Fibonacci numbers while maintaining only two variables
+        for (int i = 2; i <= n; i++) {
+            ans = (prev + curr) % MOD;  // Compute current Fibonacci
+            prev = curr;  // Move curr to prev
+            curr = ans;   // Update curr to the new ans
+        }
+        
+        return ans;  // Return the nth Fibonacci number
     }
 };
 
 // 🌟 Driver code for local execution
 int main() {
     Solution solution;
-    
+
     int n = 10;  // Fibonacci number to compute
 
     // 🛠 Using Top-Down approach (Memoization)
-    long long int topDownResult = solution.topDownFibonacci(n);
+    long long int topDownResult = solution.topDown(n);
     cout << "Top-Down Fibonacci result for " << n << ": " << topDownResult << endl;
 
     // 🛠 Using Bottom-Up approach (Tabulation)
-    long long int bottomUpResult = solution.bottomUpFibonacci(n);
+    long long int bottomUpResult = solution.bottomUp(n);
     cout << "Bottom-Up Fibonacci result for " << n << ": " << bottomUpResult << endl;
+
+    // 🛠 Using Bottom-Up Space Optimized approach
+    long long int bottomUpOptResult = solution.bottomUpSpaceOptimised(n);
+    cout << "Bottom-Up Space Optimized Fibonacci result for " << n << ": " << bottomUpOptResult << endl;
 
     return 0;
 }
@@ -86,11 +115,18 @@ int main() {
  * Example Output:
  * Top-Down Fibonacci result for 10: 55
  * Bottom-Up Fibonacci result for 10: 55
+ * Bottom-Up Space Optimized Fibonacci result for 10: 55
  * 
  * Explanation of Output:
- * The 10th Fibonacci number is 55, and both the Top-Down (Memoization) and Bottom-Up
- * (Tabulation) approaches return the same result.
+ * The 10th Fibonacci number is 55, and all three approaches return the same result: 55.
  */
 
-// Time Complexity: O(n) 🕒 for both top-down and bottom-up approaches.
-// Space Complexity: O(n) 🧠 for both approaches due to the use of a DP array.
+// Time Complexity 🕒:
+// - Top-Down (Memoization): O(n)
+// - Bottom-Up (Tabulation): O(n)
+// - Bottom-Up Space Optimized: O(n)
+
+// Space Complexity 🧠:
+// - Top-Down (Memoization): O(n) due to DP array and recursion stack
+// - Bottom-Up (Tabulation): O(n) due to DP array
+// - Bottom-Up Space Optimized: O(1) due to constant space usage
