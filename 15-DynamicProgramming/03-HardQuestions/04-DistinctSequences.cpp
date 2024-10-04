@@ -1,124 +1,134 @@
 #include <iostream>
 #include <vector>
-#include <string>
-
 using namespace std;
 
+// 📝 Class to solve the "Distinct Subsequences" problem
 class Solution {
 public:
+    // 🌀 Recursive solution to count distinct subsequences
+    // Algorithm:
+    // 1️⃣ Base case: If `j` equals the size of `t`, we found a valid subsequence.
+    // 2️⃣ If `i` equals the size of `s`, no more subsequences can be formed.
+    // 3️⃣ If characters match (s[i] == t[j]), we increment both indices.
+    // 4️⃣ Otherwise, increment only `i` to explore excluding current character from `s`.
 
-    // ✨ Algorithm explanation:
-    // We are solving the "Distinct Subsequences" problem using three approaches: Recursion, Memoization, and Tabulation.
-    // The task is to count how many distinct subsequences of string `s` match string `t`.
-
-    // 🔄 Recursion Approach:
-    // 1. If `t` is empty (j == t.size()), we've found a valid subsequence and return 1.
-    // 2. If `s` is exhausted (i == s.size()), no more subsequences are possible, return 0.
-    // 3. If characters match (s[i] == t[j]), we count subsequences where we include s[i] and exclude it.
-    // 4. If they don't match, we simply skip s[i].
-
-    // Time Complexity: O(2^n) (exponential) 🕒
-    // Space Complexity: O(n + m) due to recursion stack 🛠️
+    // 🔄 Time Complexity: O(2^n) 🕒 (Exponential)
+    // 💾 Space Complexity: O(n + m) due to recursion stack
 
     int solveUsingRecursion(string& s, string& t, int i, int j) {
-        if (j == t.size())
-            return 1; // Found valid subsequence 🎯
-        if (i == s.size())
-            return 0; // No more subsequences possible 🛑
+        if (j == t.size()) return 1; // Valid subsequence found 🎯
+        if (i == s.size()) return 0; // No subsequences left 🛑
 
-        int ans = 0;
+        int count = 0;
         if (s[i] == t[j]) {
-            ans += solveUsingRecursion(s, t, i + 1, j + 1); // Move both pointers 👣
+            count += solveUsingRecursion(s, t, i + 1, j + 1); // Include current char 👣
         }
-        ans += solveUsingRecursion(s, t, i + 1, j); // Move only the pointer in `s` 🔄
+        count += solveUsingRecursion(s, t, i + 1, j); // Exclude current char 🔄
 
-        return ans;
+        return count;
     }
 
-    // 🏗️ Memoization Approach:
-    // This builds on the recursive approach but adds a `dp` table to store results of subproblems.
-    
-    // Time Complexity: O(n*m) 🕒
-    // Space Complexity: O(n*m) 🛠️
-    
+    // 🧠 Memoized solution to store intermediate results
+    // Algorithm:
+    // 1️⃣ Use a 2D DP array to store results for subproblems (`dp[i][j]`).
+    // 2️⃣ If already computed, return the stored result to avoid recalculating.
+
+    // 🔄 Time Complexity: O(n * m) 🕒
+    // 💾 Space Complexity: O(n * m) for DP table
+
     int solveUsingMem(string& s, string& t, int i, int j, vector<vector<int>>& dp) {
-        if (j == t.size())
-            return 1;
-        if (i == s.size())
-            return 0;
+        if (j == t.size()) return 1;
+        if (i == s.size()) return 0;
 
-        if (dp[i][j] != -1) {
-            return dp[i][j]; // Return cached result from dp 📦
-        }
+        if (dp[i][j] != -1) return dp[i][j]; // Return cached result 🗄️
 
-        int ans = 0;
+        int count = 0;
         if (s[i] == t[j]) {
-            ans += solveUsingMem(s, t, i + 1, j + 1, dp);
+            count += solveUsingMem(s, t, i + 1, j + 1, dp); // Include current char
         }
-        ans += solveUsingMem(s, t, i + 1, j, dp);
+        count += solveUsingMem(s, t, i + 1, j, dp); // Exclude current char
 
-        return dp[i][j] = ans; // Store the result in dp before returning 💾
+        return dp[i][j] = count; // Store result before returning 💾
     }
 
-    // 🏆 Tabulation Approach:
-    // Use a bottom-up approach with a 2D dp array to solve the problem iteratively.
-    
-    // Time Complexity: O(n*m) 🕒
-    // Space Complexity: O(n*m) 🛠️
-    
+    // 🔄 Tabulation approach to solve problem bottom-up
+    // Algorithm:
+    // 1️⃣ Create a DP table with dimensions (s.size() + 1) x (t.size() + 1).
+    // 2️⃣ Initialize the base case: If `t` is empty, there's one valid subsequence (empty subsequence).
+    // 3️⃣ Fill the table using the recurrence relation derived from recursion.
+
+    // 🔄 Time Complexity: O(n * m) 🕒
+    // 💾 Space Complexity: O(n * m) for DP table
+
     int solveUsingTab(string& s, string& t) {
         vector<vector<int>> dp(s.size() + 1, vector<int>(t.size() + 1, 0));
 
-        // Base case: if `t` is empty, there's 1 way to form an empty subsequence
+        // Base case: If `t` is empty, there's one valid subsequence
         for (int i = 0; i <= s.size(); i++) {
-            dp[i][t.size()] = 1; // If `t` is exhausted, 1 valid subsequence remains ✅
+            dp[i][t.size()] = 1; // Subsequence found ✅
         }
 
+        // Fill DP table from bottom-up
         for (int i = s.size() - 1; i >= 0; i--) {
             for (int j = t.size() - 1; j >= 0; j--) {
-                long long ans = 0;
+                int count = 0;
                 if (s[i] == t[j]) {
-                    ans += dp[i + 1][j + 1]; // Move both indices if characters match 👣
+                    count += dp[i + 1][j + 1]; // Include current char 👣
                 }
-                ans += dp[i + 1][j]; // Move only `i` in `s` 🔄
-                dp[i][j] = ans;
+                count += dp[i + 1][j]; // Exclude current char 🔄
+                dp[i][j] = count;
             }
         }
 
-        return dp[0][0]; // The result is stored in dp[0][0] 🏆
+        return dp[0][0]; // Result is in dp[0][0] 🏆
     }
 
-    // 🌟 Main function to initiate the approach
+    // 🌟 Main function to call the preferred solution
     int numDistinct(string s, string t) {
-        // Example output explanation:
+        // Example output:
         // s = "rabbbit", t = "rabbit"
         // The number of distinct subsequences of "rabbbit" that equal "rabbit" is 3.
-        
-        // vector<vector<int>> dp(s.size() + 1, vector<int>(t.size() + 1, -1)); // Memoization table
-        // return solveUsingMem(s, t, 0, 0, dp); // Use Memoization
 
-        return solveUsingTab(s, t); // Use Tabulation for optimal solution 🏆
+        // Uncomment to test other approaches
+        // vector<vector<int>> dp(s.size() + 1, vector<int>(t.size() + 1, -1)); // For memoization
+        // return solveUsingMem(s, t, 0, 0, dp); // Memoization approach
+
+        return solveUsingTab(s, t); // Use Tabulation by default
     }
 };
 
-// 🏁 Example usage and output
+// 🏁 Main function for testing the solution
 int main() {
     Solution solution;
+
+    // 🧪 Example test case
     string s = "rabbbit";
     string t = "rabbit";
-    int result = solution.numDistinct(s, t);
-    cout << "Number of distinct subsequences: " << result << endl;  // Output: 3
+    int result = solution.numDistinct(s, t); // Calculate the result
+
+    // 📜 Output the result
+    cout << "Number of distinct subsequences: " << result << endl; // Output: 3
+
     return 0;
 }
 
 /*
-📝 Output Explanation:
-The string "rabbbit" contains 3 distinct subsequences that equal "rabbit":
+⏳ Time Complexity:
+- Recursive approach: O(2^n), due to exploring all subsequences.
+- Memoized approach: O(n * m), where n is the length of `s` and m is the length of `t`.
+- Tabulation approach: O(n * m), same as memoization.
+ 
+💾 Space Complexity:
+- Recursive approach: O(n + m) for the recursion stack.
+- Memoized approach: O(n * m) for the DP table.
+- Tabulation approach: O(n * m) for the DP table.
+
+📊 Example Output:
+Number of distinct subsequences: 3
+
+Explanation:
+In the string "rabbbit", there are 3 distinct subsequences that equal "rabbit":
 1. r**a**b**b**b**i**t
 2. r**a**b**b**b**i**t
 3. r**a**b**b**i**t
-The function calculates all possible subsequences and returns 3 as the answer. 🏆
-
-Time Complexity for the Tabulation Approach: O(n*m) 🕒
-Space Complexity: O(n*m) 🛠️
 */
