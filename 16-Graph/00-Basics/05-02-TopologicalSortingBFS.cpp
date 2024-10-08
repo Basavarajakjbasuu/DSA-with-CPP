@@ -131,8 +131,3 @@ Explanation:
 🗂 Space Complexity (SC):
 - O(V), where V is the number of vertices. The space is used for the in-degree map and the queue.
 */
-
-/*
-✨ Commit Message: 
-🔄 Added topological sorting using BFS (Kahn's Algorithm) and adjacency list representation.
-*/
